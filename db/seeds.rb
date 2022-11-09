@@ -1,6 +1,8 @@
 # This will delete any existing rows from the Product and User tables
 # so you can run the seed file multiple times without having duplicate entries in your database
 puts "Deleting old data..."
+require 'faker'
+
 Product.destroy_all
 User.destroy_all
 
@@ -23,4 +25,9 @@ puts "Creating reviews..."
 # *****************************************************************
 # Create Reviews Here
 
+User.all.each do |user|
+    Product.all.each do |product|
+        Review.create(user: user, product: product, comment: Faker::Lorem.sentence, star_rating: rand(1..5))
+    end
+end    
 puts "Seeding done!"
