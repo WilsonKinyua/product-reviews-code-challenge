@@ -1,19 +1,7 @@
 class Product < ActiveRecord::Base
-    has_many :users
     has_many :reviews
-
-    # returns a collection of all reviews for the product
-    def reviews
-        Review.where(product_id: self.id)
-    end
-
-    # returns a collection of all users who have reviewed the product
-    def users
-        self.reviews.map do |review|
-            review.user
-        end
-    end
-
+    has_many :users, through: :reviews
+    
     def leave_review(user, star_rating, comment)
         Review.create(user: user, product: self, comment: comment, star_rating: star_rating)
     end
